@@ -15,12 +15,12 @@
 	// "features": {},
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "bash -c '.devcontainer/postCreate.sh && .devcontainer/postCreateApacheSetup.sh && .devcontainer/postCreateFriendicaSetup.sh'",
-	"postStartCommand": "service apache2 start",
+	"postCreateCommand": "bash -c '.devcontainer/postCreate.sh'",
+	//"postStartCommand": "service apache2 start",
 
-	"forwardPorts": [
-		8080
-	],
+	//"forwardPorts": [
+	//	8080
+	//],
 
 	// Configure tool-specific properties.
 	"customizations": {
