@@ -1,0 +1,64 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-compose
+{
+  "name": "Friendica Development",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "php",
+  "workspaceFolder": "/var/www/html",
+
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [8080, 8086, 3306],
+  "portsAttributes": {
+    "8080": {
+      "label": "Friendica",
+      "onAutoForward": "notify"
+    },
+    "8086": {
+      "label": "phpMyAdmin",
+      "onAutoForward": "notify"
+    },
+    "3306": {
+      "label": "MariaDB",
+      "onAutoForward": "notify"
+    }
+  },
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": "cd /var/www/html && composer install && bin/console autoinstall -f /tmp/autoinstall.config.php 2>/dev/null || echo 'Note: Autoinstall may need to be run manually if database is not ready yet'",
+
+  // Configure tool-specific properties.
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "ms-azuretools.vscode-docker",
+        "xdebug.php-debug",
+        "donjayamanne.githistory",
+        "ms-vscode.makefile-tools"
+      ],
+      "settings": {
+        "php.suggest.basic": false,
+        "php.validate.executablePath": "/usr/local/bin/php",
+        "xdebug.log": "/tmp/xdebug.log",
+        "[php]": {
+          "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+        }
+      }
+    }
+  },
+
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  // "remoteUser": "root"
+
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/www-data/.ssh,readonly"
+  ],
+  "remoteEnv": {
+    "PHP_IDE_CONFIG": "serverName=localhost"
+  }
+}
