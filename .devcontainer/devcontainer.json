@@ -1,20 +1,6 @@
 {
-  "name": "Custom Node.js Environment",
-
-  // Build from local Dockerfile instead of using a base image
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
-  },
-
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "dbaeumer.vscode-eslint",
-        "ms-azuretools.vscode-docker"
-      ]
+    "build": {
+        // Path is relative to the devcontainer.json file.
+        "dockerfile": "Dockerfile"
     }
-  },
-
-  "postCreateCommand": "npm install",
 }
