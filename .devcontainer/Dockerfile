@@ -15,7 +15,7 @@ RUN npm install -g typescript ts-node nodemon
 
 # Create directory for VS Code extensions cache
 # This speeds up container rebuilds
-RUN mkdir -p /home/node/.vscode-server/extensions
+#RUN mkdir -p /home/node/.vscode-server/extensions
 
 # Set working directory
 WORKDIR /workspace
