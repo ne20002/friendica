@@ -21,7 +21,7 @@ services:
     image: mariadb:latest
     env_file:
       - path: ../.docker/.dist.env
-        required: true
+        required: true # default
       - path: .env
         required: false
     environment:
@@ -33,6 +33,7 @@ services:
       - MYSQL_COLLATION=utf8mb4_unicode_ci
     volumes:
       - mariadb_data:/var/lib/mysql
+      - ../.docker/mariadb/01-init.sh:/docker-entrypoint-initdb.d/01-init.sh
     ports:
       - "${MYSQL_PORT:-3306}:3306"
     networks:
@@ -43,6 +44,26 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    env_file:
+      - path: ../.docker/.dist.env
+        required: false
+      - path: .env
+        required: false
+    ports:
+      - ${PHPMYADMIN_PORT:-8086}:80
+    environment:
+      - PMA_HOST=${MYSQL_HOST:-db}
+      - PMA_PORT=${MYSQL_PORT:-3306}
+      - PMA_USER=root
+      - PMA_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - friendica-network
 
   redis:
     image: redis:latest
